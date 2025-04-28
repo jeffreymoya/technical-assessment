@@ -1,6 +1,9 @@
-import "@testing-library/jest-dom";
+import '@testing-library/jest-dom';
+import { expect } from '@jest/globals'; 
+import { toHaveNoViolations } from 'jest-axe'; 
 
-// Mock Next.js router
+expect.extend(toHaveNoViolations); 
+
 jest.mock("next/router", () => ({
   useRouter() {
     return {
@@ -12,4 +15,10 @@ jest.mock("next/router", () => ({
       replace: jest.fn(),
     };
   },
+}));
+
+global.ResizeObserver = jest.fn().mockImplementation(() => ({
+  observe: jest.fn(),
+  unobserve: jest.fn(),
+  disconnect: jest.fn(),
 }));
